@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AirlineRequest;
+use App\Http\Resources\AirlineResource;
 use App\Models\Airline;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +16,7 @@ class AirlineController extends Controller
      */
     public function index()
     {
-        return Airline::paginate(5);
+        return AirlineResource::collection(Airline::paginate(5));
     }
 
     /**
@@ -60,7 +61,7 @@ class AirlineController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        return $airline;
+        return new AirlineResource($airline);
     }
 
     /**

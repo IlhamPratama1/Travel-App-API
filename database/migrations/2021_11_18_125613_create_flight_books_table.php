@@ -17,10 +17,15 @@ class CreateFlightBooksTable extends Migration
             $table->increments('id');
             $table->string('flight_code')->unique();
             $table->unsignedInteger('flight_id');
+            $table->unsignedInteger('user_id');
             $table->integer('seat_number');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
             $table->foreign('flight_id')->references('id')->on('flights')->onDelete('cascade');
+        });
+
+        Schema::table('flight_books', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

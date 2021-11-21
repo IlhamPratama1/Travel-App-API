@@ -17,8 +17,8 @@ class CreateFlightsTable extends Migration
             $table->increments('id');
             $table->string('code')->unique();
             $table->unsignedInteger('airline_id');
-            $table->date('flight_time');
-            $table->date('arrival_time');
+            $table->dateTime('flight_time');
+            $table->dateTime('arrival_time');
             $table->string('from_city_name');
             $table->string('to_city_name');
             $table->decimal('price', 10, 2);

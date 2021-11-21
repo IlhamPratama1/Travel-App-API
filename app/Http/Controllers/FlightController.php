@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FlightRequest;
+use App\Http\Resources\FlightResource;
 use App\Models\Flight;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,7 +16,7 @@ class FlightController extends Controller
      */
     public function index()
     {
-        return Flight::paginate(5);
+        return FlightResource::collection(Flight::paginate(5));
     }
 
     /**
@@ -67,7 +68,7 @@ class FlightController extends Controller
             ], Response::HTTP_NOT_FOUND);
         }
 
-        return $flight;
+        return new FlightResource($flight);
     }
 
     /**

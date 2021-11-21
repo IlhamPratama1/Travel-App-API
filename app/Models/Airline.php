@@ -13,7 +13,11 @@ class Airline extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable = ['name', 'city', 'image_path'];
+    protected $fillable = [
+        'name',
+        'city',
+        'image_path'
+    ];
 
     public function flights() {
         return $this->hasMany(Flight::class, 'airline_id');

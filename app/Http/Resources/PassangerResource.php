@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AirlineResource extends JsonResource
+class PassangerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,8 @@ class AirlineResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'city' => $this->city,
-            'image_path' => $this->image_path,
-            'flights' => $this->flights
+            'fullname' => $this->fullname,
+            'type' => $this->type
         ];
     }
 }
