@@ -14,8 +14,12 @@ class CreateProcessFlightsTable extends Migration
     public function up()
     {
         Schema::create('process_flights', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->increments('id');
+            $table->unsignedInteger('flight_book_id');
+            $table->enum('status', ['refunded', 'processed', 'failed', 'success']);
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
+            $table->foreign('flight_book_id')->references('id')->on('flight_books')->onDelete('cascade');
         });
     }
 

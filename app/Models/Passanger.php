@@ -20,6 +20,6 @@ class Passanger extends Model
     ];
 
     public function flightBook() {
-        return $this->belongsTo(Flight::class, 'flight_book_id');
+        return $this->belongsTo(FlightBook::class, 'flight_book_id');
     }
 }

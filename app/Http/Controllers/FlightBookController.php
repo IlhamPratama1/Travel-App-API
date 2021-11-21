@@ -19,11 +19,11 @@ class FlightBookController extends Controller
     public function flightId($id) {
         $flight_books = FlightBook::where('flight_id', $id)->get();
         
-        if($flight_books === null) {
+        if($flight_books->count() === 0) {
             return response()->json([
                 'message' => 'Flight not found',
                 'status' => Response::HTTP_NOT_FOUND
-            ], Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_OK);
         }
 
         return FlightBookResource::collection($flight_books);
@@ -38,11 +38,11 @@ class FlightBookController extends Controller
     public function myFlightBooks(Request $request) {
         $flight_books = FlightBook::where('user_id', $request->user()->id)->orderBy('created_at')->get();
 
-        if($flight_books === null) {
+        if($flight_books->count() === 0) {
             return response()->json([
                 'message' => 'Flight not found',
                 'status' => Response::HTTP_NOT_FOUND
-            ], Response::HTTP_NOT_FOUND);
+            ], Response::HTTP_OK);
         }
 
         return FlightBookResource::collection($flight_books);
@@ -58,24 +58,24 @@ class FlightBookController extends Controller
     {
         $request->validate([
             'flight_id' => 'required',
-            'user_id' => 'required',
             'seat_number' => 'required|integer',
             'passangers' => 'required|array'
         ]);
 
-        if(FlightBook::where('seat_number', $request->seat_number)->first()) {
+        $flightBookData = FlightBook::where('seat_number', $request->seat_number)->latest('updated_at')->first();
+        if($flightBookData && $flightBookData->process->status === 'processed') {
             return response()->json([
                 'message' => 'Seat already reserved',
                 'status' => Response::HTTP_BAD_REQUEST
             ], Response::HTTP_BAD_REQUEST);
         };
 
-        $flight_code = time() . '-' . $request->flight_id . ':' . $request->user_id . ':' . $request->seat_number;
+        $flight_code = time() . '-' . $request->flight_id . ':' . $request->user()->id . ':' . $request->seat_number;
 
         $flightBook = FlightBook::create([
             'flight_code' => $flight_code,
             'flight_id' => $request->flight_id,
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
             'seat_number' => $request->seat_number
         ]);
 

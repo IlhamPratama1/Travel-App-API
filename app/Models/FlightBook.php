@@ -31,4 +31,8 @@ class FlightBook extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function process() {
+        return $this->hasOne(ProcessFlight::class, 'flight_book_id');
+    }
 }

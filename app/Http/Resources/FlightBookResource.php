@@ -17,6 +17,7 @@ class FlightBookResource extends JsonResource
         return [
             'id' => $this->id,
             'flight' => $this->flight,
+            'process' => $this->process,
             'passangers' => $this->passangers,
             'user' => $this->user,
             'seat_number' => $this->seat_number

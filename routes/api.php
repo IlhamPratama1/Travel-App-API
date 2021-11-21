@@ -6,6 +6,7 @@ use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\FlightBookController;
 use App\Http\Controllers\FlightController;
 use App\Http\Controllers\NewPasswordController;
+use App\Http\Controllers\ProcessFlightController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('flight-book/my-flight', [FlightBookController::class, 'myFlightBooks'])->name('flightBook.myFlight');
     Route::get('flight-book/{flightBook}/', [FlightBookController::class, 'show'])->name('flightBook.show');
     Route::post('flight-book/', [FlightBookController::class, 'store'])->name('flightBook.store');
+    Route::put('flight-book/refund/{flightBook}', [ProcessFlightController::class, 'refund'])->name('flightBook.refund');
 
     Route::get('/user', function (Request $request) {
         return $request->user();
